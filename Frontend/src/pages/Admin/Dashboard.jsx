@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Sidebar from './Sidebar'; // Import Sidebar component
 import EventCalendar from './EventCalender';
 import Announcement from './Announcement';
 import Performance from './Performance';
@@ -33,25 +34,24 @@ const AdminDashboard = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar is omitted, assuming it's part of the UI structure */}
-      <div className="flex-1 p-6">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main Dashboard Content */}
+      <div className="flex-1 p-6 ml-20 md:ml-64 transition-all duration-300">
+        {/* Dashboard Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div className="bg-white p-4 rounded-lg shadow-md text-center">
-            <h3 className="text-lg font-bold text-gray-700">Total Students</h3>
-            <p className="text-2xl font-semibold text-blue-600">500</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md text-center">
-            <h3 className="text-lg font-bold text-gray-700">Total Teachers</h3>
-            <p className="text-2xl font-semibold text-blue-600">50</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md text-center">
-            <h3 className="text-lg font-bold text-gray-700">Total Classes</h3>
-            <p className="text-2xl font-semibold text-blue-600">50</p>
-          </div>
+          <DashboardCard title="Total Students" value="500" />
+          <DashboardCard title="Total Teachers" value="50" />
+          <DashboardCard title="Total Classes" value="50" />
         </div>
+
+        {/* Events Calendar */}
         <div className="bg-white p-6 rounded-lg shadow-md mb-6">
           <EventCalendar events={events} />
         </div>
+
+        {/* Performance & Announcements */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Performance studentPerformance={studentPerformance} />
           <Announcement announcements={announcements} />
@@ -60,5 +60,13 @@ const AdminDashboard = () => {
     </div>
   );
 };
+
+// Dashboard Card Component
+const DashboardCard = ({ title, value }) => (
+  <div className="bg-white p-4 rounded-lg shadow-md text-center">
+    <h3 className="text-lg font-bold text-gray-700">{title}</h3>
+    <p className="text-2xl font-semibold text-blue-600">{value}</p>
+  </div>
+);
 
 export default AdminDashboard;
