@@ -12,7 +12,10 @@ const Sidebar = () => {
     <div className={`fixed top-0 left-0 h-full bg-gray-800 text-white transition-all duration-300 ${isOpen ? 'w-64' : 'w-20'}`}>
       
       {/* Sidebar Header */}
-      <div className="flex items-center justify-center px-4 py-4">
+      <div className="flex items-center justify-between px-4 py-4">
+        <h2 className={`text-xl font-bold transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 hidden'}`}>
+          Excellence School
+        </h2>
         <button 
           onClick={() => setIsOpen(!isOpen)} 
           className="bg-gray-700 text-white p-2 rounded-full focus:outline-none"
@@ -25,7 +28,8 @@ const Sidebar = () => {
       <ul className="space-y-2 mt-4">
         <SidebarItem to="/dashboard" icon={<BsGraphUp />} text="Dashboard" isOpen={isOpen} />
         <SidebarItem to="/classes" icon={<BsPeople />} text="Classes" isOpen={isOpen} />
-        <SidebarItem to="/students" icon={<BsPeople />} text="Students" isOpen={isOpen} />
+        <SidebarItem to="/admin/students" icon={<BsPeople />} text="Students" isOpen={isOpen} />
+
         <SidebarItem to="/teachers" icon={<BsPerson />} text="Teachers" isOpen={isOpen} />
         <SidebarItem to="/assignments" icon={<BsFileText />} text="Assignments" isOpen={isOpen} />
         <SidebarItem to="/exams" icon={<BsBook />} text="Exams" isOpen={isOpen} />
@@ -42,10 +46,12 @@ const Sidebar = () => {
 
 // Sidebar Item Component
 const SidebarItem = ({ to, icon, text, isOpen }) => (
-  <li className="flex items-center px-4 py-3 hover:bg-gray-700 transition duration-300">
-    <span className="text-lg">{icon}</span>
-    {isOpen && <Link to={to} className="ml-3 text-white">{text}</Link>}
-  </li>
+  <Link to={to} className="w-full block">
+    <li className="flex items-center px-4 py-3 hover:bg-gray-700 transition duration-300">
+      <span className="text-lg">{icon}</span>
+      {isOpen && <span className="ml-3">{text}</span>}
+    </li>
+  </Link>
 );
 
 export default Sidebar;

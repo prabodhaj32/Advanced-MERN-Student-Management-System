@@ -6,28 +6,28 @@ import AdminSignIn from './components/AdminSignIn';
 import AdminDashboard from './pages/Admin/Dashboard';
 import Students from './pages/Admin/Students';
 import StudentDashboard from './pages/Student/Dashboard';
-
+//import NotFound from './components/NotFound'; // Add a 404 Not Found Page
 
 const App = () => { 
   return (
     <Router>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/choose-user" element={<ChooseUser />} />
-        <Route path="/admin-signin" element={<AdminSignIn />} />  
+      <div className="min-h-screen bg-gray-100"> {/* Optional Layout Wrapper */}
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/choose-user" element={<ChooseUser />} />
+          <Route path="/admin-signin" element={<AdminSignIn />} />  
 
-        {/* Admin Routes */}
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/students" element={<Students />} />
+          {/* Admin Routes */}
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route exact path="/admin/students" element={<Students />} />
 
+          {/* Student Routes */}
+          <Route exact path="/student/dashboard" element={<StudentDashboard />} />
 
-        {/* Student Routes */}
-        <Route path="/student/dashboard" element={<StudentDashboard />} />
-
-        {/* Fallback Route */}
-       
-      </Routes>
+         
+        </Routes>
+      </div>
     </Router>
   );
 };

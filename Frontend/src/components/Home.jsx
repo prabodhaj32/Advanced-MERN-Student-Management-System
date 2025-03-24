@@ -4,6 +4,7 @@ import bg from "../assets/bg.png";
 import bg1 from "../assets/bg1.png";
 import sch from "../assets/sch.png";
 import dm from "../assets/dm.jpg";
+import sch2 from "../assets/sch2.jpg";
 import { LoremIpsum } from 'lorem-ipsum';
 import AOS from 'aos';
 import 'aos/dist/aos.css';  // AOS styles
@@ -51,15 +52,15 @@ const Home = () => {
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/60 z-10"></div>
           <img
-            src={bg1} // Use the correct image source
+            src={sch2} // Use the correct image source
             alt="Students in classroom"
             className="w-full h-[600px] object-cover"
           />
           <div className="absolute inset-0 z-20 flex items-center">
             <div className="container mx-auto px-4">
               <div className="max-w-xl">
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                  Inspiring Excellence in Education
+                <h1 className="text-4xl md:text-4xl font-bold mb-4" data-aos="fade-right"> 
+                  Student Management System
                 </h1>
                 <p className="text-lg md:text-xl mb-8">
                   Providing a nurturing environment where students develop the
@@ -115,8 +116,8 @@ const Home = () => {
           className="md:w-1/2 text-center md:text-left space-y-4"
           data-aos="fade-up" // Animation effect when scrolling
         >
-          <h1 className="text-3xl font-bold text-gray-800">Student Management System</h1>
-          <p className="text-gray-600">{loremText}</p>
+          <h1 className="text-3xl font-bold text-gray-800">About Us</h1>
+          <p className="text-gray-600">At Excellence School, we believe in empowering education through technology. Our Student Management System (SMS) is designed to streamline student records, academic tracking, and communication for a seamless learning experience. Whether you're a student, teacher, or parent, our system ensures efficient management of all educational activities.</p>
         </div>
         <img
           src={sch}
