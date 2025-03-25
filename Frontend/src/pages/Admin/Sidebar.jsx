@@ -30,7 +30,7 @@ const Sidebar = () => {
         <SidebarItem to="/classes" icon={<BsPeople />} text="Classes" isOpen={isOpen} />
         <SidebarItem to="/admin/students" icon={<BsPeople />} text="Students" isOpen={isOpen} />
 
-        <SidebarItem to="/teachers" icon={<BsPerson />} text="Teachers" isOpen={isOpen} />
+        <SidebarItem to="/admin/teachers" icon={<BsPerson />} text="Teachers" isOpen={isOpen} />
         <SidebarItem to="/assignments" icon={<BsFileText />} text="Assignments" isOpen={isOpen} />
         <SidebarItem to="/exams" icon={<BsBook />} text="Exams" isOpen={isOpen} />
         <SidebarItem to="/performance" icon={<BsGraphDown />} text="Performance" isOpen={isOpen} />
