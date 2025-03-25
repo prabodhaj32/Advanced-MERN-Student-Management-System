@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Sidebar from './Sidebar';
 
 // Simulated data for events
 const mockEvents = [
@@ -8,13 +9,19 @@ const mockEvents = [
 ];
 
 const EventCalendar = () => {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState(mockEvents);
   const [newEvent, setNewEvent] = useState('');
   const [error, setError] = useState(null);
+  const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   useEffect(() => {
-    // Simulate fetching events
-    setEvents(mockEvents);
+    // Update time every second
+    const timer = setInterval(() => {
+      setCurrentTime(new Date().toLocaleString());
+    }, 1000);
+
+    return () => clearInterval(timer); // Cleanup interval on component unmount
   }, []);
 
   const addEvent = (e) => {
@@ -29,12 +36,24 @@ const EventCalendar = () => {
   };
 
   return (
-    <div className="flex">
-      {/* Sidebar component is omitted for simplicity */}
-      <div className="flex-1 p-6">
+    <div className="flex-1 p-6 max-w-4xl mx-auto">
+
+    {/* Sidebar */}
+    <Sidebar />
+      {/* Main content */}
+      <div className={`flex-1 p-6 overflow-auto ${sidebarOpen ? 'ml-1/4' : ''}`}>
+        <button
+          className="lg:hidden p-2 bg-blue-600 text-white rounded-md"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        >
+          {sidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
+        </button>
+
         <h1 className="text-2xl font-bold mb-4">Events & Calendar</h1>
-        <div className="mb-4 text-gray-600">Current Time: {new Date().toLocaleString()}</div>
+        <div className="mb-4 text-gray-600">Current Time: {currentTime}</div>
         <div className="bg-gray-100 p-6 rounded-lg shadow-md mb-6">Calendar</div>
+        
+        {/* Event form */}
         <form onSubmit={addEvent} className="bg-white p-6 rounded-lg shadow-md space-y-4">
           <h2 className="text-xl font-semibold">Add New Event</h2>
           <input
@@ -52,6 +71,8 @@ const EventCalendar = () => {
           </button>
         </form>
         {error && <p className="text-red-500 mt-2">{error}</p>}
+
+        {/* Event list */}
         <div className="mt-6">
           <h2 className="text-xl font-semibold">Events</h2>
           <ul className="mt-2 space-y-2">

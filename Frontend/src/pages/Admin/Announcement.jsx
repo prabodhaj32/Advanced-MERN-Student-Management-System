@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Sidebar from "./Sidebar";
 // Simulated announcements data
 const mockAnnouncements = [
   { id: 1, announcement: "First announcement" },
@@ -32,7 +32,9 @@ const Announcement = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex-1 p-6 max-w-4xl mx-auto">
+     <Sidebar/>
+     
       <ToastContainer />
       {/* Sidebar is omitted as you are focusing on the core functionality */}
       <div className="flex-1 p-6">

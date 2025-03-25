@@ -26,19 +26,13 @@ const Sidebar = () => {
 
       {/* Sidebar Menu */}
       <ul className="space-y-2 mt-4">
-        <SidebarItem to="/dashboard" icon={<BsGraphUp />} text="Dashboard" isOpen={isOpen} />
-        <SidebarItem to="/classes" icon={<BsPeople />} text="Classes" isOpen={isOpen} />
+        <SidebarItem to="/admin/dashboard" icon={<BsGraphUp />} text="Dashboard" isOpen={isOpen} />
+        <SidebarItem to="/admin/classes" icon={<BsPeople />} text="Classes" isOpen={isOpen} />
         <SidebarItem to="/admin/students" icon={<BsPeople />} text="Students" isOpen={isOpen} />
-
         <SidebarItem to="/admin/teachers" icon={<BsPerson />} text="Teachers" isOpen={isOpen} />
-        <SidebarItem to="/assignments" icon={<BsFileText />} text="Assignments" isOpen={isOpen} />
-        <SidebarItem to="/exams" icon={<BsBook />} text="Exams" isOpen={isOpen} />
-        <SidebarItem to="/performance" icon={<BsGraphDown />} text="Performance" isOpen={isOpen} />
-        <SidebarItem to="/attendance" icon={<BsCalendar />} text="Attendance" isOpen={isOpen} />
-        <SidebarItem to="/library" icon={<BsBook />} text="Library" isOpen={isOpen} />
-        <SidebarItem to="/communication" icon={<BsChatDots />} text="Announcements" isOpen={isOpen} />
-        <SidebarItem to="/events" icon={<BsCalendarEvent />} text="Events & Calendar" isOpen={isOpen} />
-        <SidebarItem to="/settings" icon={<BsGear />} text="Settings & Profile" isOpen={isOpen} />
+        <SidebarItem to="/admin/communication" icon={<BsChatDots />} text="Announcements" isOpen={isOpen} />
+        <SidebarItem to="/admin/events" icon={<BsCalendarEvent />} text="Events & Calendar" isOpen={isOpen} />
+        <SidebarItem to="/admin/settings" icon={<BsGear />} text="Settings & Profile" isOpen={isOpen} />
       </ul>
     </div>
   );
