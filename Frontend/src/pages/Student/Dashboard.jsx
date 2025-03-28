@@ -1,5 +1,5 @@
 import React from 'react';
-//import Sidebar from './Sidebar';
+import Sidebar from './Sidebar';
 
 const StudentDashboard = () => {
   // Static data for the dashboard
@@ -23,8 +23,9 @@ const StudentDashboard = () => {
   ];
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
+    <div className="flex-1 p-6 max-w-4xl mx-auto">
+     <Sidebar/>
+     
       <div className="flex-1 p-6">
         {/* Overview Section */}
         <section className="mb-8">
