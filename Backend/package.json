@@ -1,16 +1,13 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Advanced MERN stack project",
+  "description": "advance mern stack project",
   "license": "ISC",
-  "author": "Code with Prabodha",
+  "author": "code with prabodha",
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "dev": "nodemon index.js",
-    "build": "echo 'Add your build scripts here'",
-    "test": "echo 'Add your tests here'"
+    "start": "nodemon index.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
@@ -18,8 +15,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "mongoose": "^8.12.1",
-    "express-validator": "^6.14.1"
+    "mongoose": "^8.12.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
