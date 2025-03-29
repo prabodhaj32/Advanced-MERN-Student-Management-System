@@ -1,28 +1,30 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-//import route from "./routes/userRoute.js";
+import cors from "cors";
+import adminRegisterRouter from "./router/adminRegisterRouter.js";
 
-// Create an Express app
-const app = express();
-
-// Load environment variables from .env file
 dotenv.config();
 
-// Set the port from environment variables or default to 7000
+const app = express();
 const PORT = process.env.PORT || 7000;
 
-// Get the MongoDB connection URL from environment variables
-const MONGOURL = process.env.MONGO_URL;
+// Middleware
+app.use(express.json());
+app.use(cors());
 
-// Connect to MongoDB and start the server
-mongoose.connect("mongodb://127.0.0.1:27017/mern", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+// Routes
+app.use("/api/v1", adminRegisterRouter);
+
+// MongoDB connection
+mongoose
+  .connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log("Database connected successfully.");
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Error connecting to MongoDB:", error);
   });
-  console.log("Database connected successfully.");
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
-  
- //app.use("/api", route);

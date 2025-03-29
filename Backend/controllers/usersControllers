@@ -1,0 +1,32 @@
+import bcrypt from "bcryptjs";  // Import bcrypt for password comparison
+import { handleValidationError } from "../middlewares/errorHandler.js";
+import { Admin } from "../models/adminRegisterSchema.js";
+
+export const adminSignIn = async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    if (!email || !password) {
+      return handleValidationError("Please provide email and password", 400, res);
+    }
+
+    const existingAdmin = await Admin.findOne({ email });
+
+    if (!existingAdmin) {
+      return res.status(401).json({ success: false, message: "Invalid email or password" });
+    }
+
+    // Using bcryptjs to compare passwords
+    const isPasswordValid = await bcrypt.compare(password, existingAdmin.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ success: false, message: "Invalid email or password" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Admin signed in successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+};

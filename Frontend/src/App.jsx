@@ -47,6 +47,8 @@ const App = () => {
           <Route exact path="/teacher-signIn" element={<TeacherSignIn />} />
 
           {/* Admin Routes */}
+          
+          <Route path="/" element={<Home />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/students" element={<Students />} />
           <Route path="/admin/teachers" element={<Teachers />} />
@@ -56,6 +58,7 @@ const App = () => {
           <Route exact path="/admin/settings" element={<SettingsProfile />} />
 
           {/* Student Routes */}
+          <Route path="/" element={<Home />} />
           <Route path="/student/dashboard" element={<StudentDashboard />} />
           <Route exact path="/student/assignments" element={<StudentAssignments />} />
         <Route exact path="/student/exams" element={<ExamSection />} />
@@ -66,6 +69,7 @@ const App = () => {
         <Route exact path="/student/settings" element={<ProfileSection />} />
 
          {/* Teachers sections here */}
+         <Route path="/" element={<Home />} />
          <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
          <Route exact path="/teacher/classes" element={<ClassSection />} />
         <Route exact path="/teacher/students" element={<StudentSection />} />

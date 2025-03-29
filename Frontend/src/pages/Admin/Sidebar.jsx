@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  BsGraphUp, BsPeople, BsPerson, BsFileText, BsBook, BsGraphDown, 
+  BsHouse,BsGraphUp, BsPeople, BsPerson, BsFileText, BsBook, BsGraphDown, 
   BsCalendar, BsGear, BsChatDots, BsCalendarEvent 
 } from 'react-icons/bs';
 
@@ -14,7 +14,7 @@ const Sidebar = () => {
       {/* Sidebar Header */}
       <div className="flex items-center justify-between px-4 py-4">
         <h2 className={`text-xl font-bold transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 hidden'}`}>
-          Excellence School
+          Admin Dashbord
         </h2>
         <button 
           onClick={() => setIsOpen(!isOpen)} 
@@ -26,6 +26,7 @@ const Sidebar = () => {
 
       {/* Sidebar Menu */}
       <ul className="space-y-2 mt-4">
+        <SidebarItem to="/" icon={<BsHouse />} text="Home" isOpen={isOpen} />  
         <SidebarItem to="/admin/dashboard" icon={<BsGraphUp />} text="Dashboard" isOpen={isOpen} />
         <SidebarItem to="/admin/classes" icon={<BsPeople />} text="Classes" isOpen={isOpen} />
         <SidebarItem to="/admin/students" icon={<BsPeople />} text="Students" isOpen={isOpen} />

@@ -111,7 +111,7 @@ const Home = () => {
     return (
         <div className="min-h-screen bg-gray-50 overflow-hidden">
             {/* Navigation */}
-            <nav className={`fixed w-full ${isScrolled ? 'bg-white/95 shadow-xl py-3' : 'bg-white/90 py-4'} backdrop-blur-md transition-all duration-500 z-40 px-6`}>
+            <nav className={`fixed w-full ${isScrolled ? 'bg-white shadow-xl py-3' : 'bg-white py-4'} backdrop-blur-md transition-all duration-500 z-40 px-6`}>
                 <div className="container mx-auto flex items-center justify-between">
                     <img 
                         src={dm} 
@@ -119,7 +119,7 @@ const Home = () => {
                         className={`h-14 transform hover:scale-110 transition-transform duration-300 ${isScrolled ? 'h-12' : 'h-14'}`}
                         data-aos="fade-right"
                     />
-                    <div className="flex space-x-8">
+                    <div className="flex space-x-8 ">
                         {['About Us', 'Products', 'Contact Us'].map((item, idx) => (
                             <button 
                                 key={idx}
