@@ -1,9 +1,19 @@
 import mongoose from "mongoose";
 
-const AdminSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+// Define the Admin schema
+const adminSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
 });
 
-// Export the model as default
-export default mongoose.model("Admin", AdminSchema);
+// Create a model based on the schema
+const Admin = mongoose.model("Admin", adminSchema);
+
+export default Admin;
