@@ -1,15 +1,14 @@
 import express from "express";
-import { studentSignIn, teacherSignIn, adminRegister } from "../controllers/usersController.js"; // Ensure all methods are imported
+import { studentSignIn, teacherSignIn, adminSignIn, adminRegister } from "../controllers/usersController.js";
 
 const router = express.Router();
 
-// Route to handle student sign-in
+// Sign-in routes
 router.post('/student/signin', studentSignIn);
-
-// Route to handle teacher sign-in
 router.post('/teacher/signin', teacherSignIn);
+router.post('/admin/signin', adminSignIn);  // ✅ Ensure this is present
 
-// Route to handle admin registration
+// Admin registration
 router.post('/admin/register', adminRegister);
 
 export default router;
