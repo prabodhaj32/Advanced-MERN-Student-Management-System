@@ -1,45 +1,33 @@
-// controllers/adminController.js
-import bcrypt from "bcrypt";
-import { Admin } from "../models/Admin.js";
+// adminRegisterController.js
+import { Admin } from "../models/adminRegisterSchema.js";
 import { handleValidationError } from "../middlewares/errorHandler.js";
+import bcrypt from "bcryptjs";
 
 export const adminRegister = async (req, res, next) => {
-  const { name, email, password } = req.body;
+  console.log(req.body);
+  const { email, password } = req.body;
 
   try {
-    // Validate the input
-    if (!name || !email || !password) {
-      return handleValidationError("Please fill out all fields", 400, res);
+    if (!email || !password) {
+      return res.status(400).json({ success: false, message: "Please Fill Form!" });
     }
 
-    // Check if the admin already exists in the database
+    // Check if the admin already exists
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
-      return res.status(400).json({
-        success: false,
-        message: "Admin already exists",
-      });
+      return res.status(400).json({ success: false, message: "Admin already exists" });
     }
 
-    // Hash the password
+    // Hash the password before saving
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new admin with hashed password
-    const newAdmin = await Admin.create({
-      name,
-      email,
-      password: hashedPassword,
-    });
+    await Admin.create({ email, password: hashedPassword });
 
-    // Return success response with created admin details
-    res.status(200).json({
+    res.status(201).json({
       success: true,
       message: "Admin Created!",
-      admin: {
-        name: newAdmin.name,
-        email: newAdmin.email,
-      },
     });
+
   } catch (err) {
     next(err);
   }
