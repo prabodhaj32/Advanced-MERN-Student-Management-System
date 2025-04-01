@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Sidebar from './Sidebar';
 
 const EventSection = () => {
@@ -6,24 +7,48 @@ const EventSection = () => {
   const [newEvent, setNewEvent] = useState('');
   const [error, setError] = useState(null);
 
-  // Function to add a new event
-  const addEvent = (e) => {
-    e.preventDefault();
-    if (newEvent.trim() === '') {
-      setError('Event cannot be empty');
-      return;
+  // Function to fetch events from the backend
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/api/events/getall');
+      setEvents(response.data.events || []);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+      setError('Error fetching events');
     }
-    setEvents([...events, newEvent]);
-    setNewEvent('');
-    setError(null);
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  // Function to add a new event
+  const addEvent = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:8000/api/events', {
+        event: newEvent,
+      });
+      setEvents([...events, response.data.event]);
+      setNewEvent('');
+    } catch (error) {
+      console.error('Error adding event:', error);
+      if (error.response && error.response.data && error.response.data.error) {
+        setError(error.response.data.error);
+      } else {
+        setError('Error adding event');
+      }
+    }
   };
 
   return (
-    <div className="flex-1 p-6 max-w-4xl mx-auto">
-     <Sidebar/>
-      <div className="w-1/4 bg-gray-200 p-4">
-        {/* Sidebar content goes here */}
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Sidebar */}
+      <div className="w-1/4 bg-white p-4 shadow-md">
+        <Sidebar />
       </div>
+
+      {/* Main Content */}
       <div className="flex-1 p-6">
         <h1 className="text-3xl font-semibold mb-4">Events & Calendar</h1>
         <div className="text-sm text-gray-600 mb-6">
@@ -35,7 +60,7 @@ const EventSection = () => {
           <h2 className="text-xl font-semibold mb-4">Calendar</h2>
           <div className="bg-gray-100 p-4 rounded-lg">
             {/* Placeholder for the Calendar component */}
-            Calendar
+            <p className="text-gray-500">Calendar placeholder</p>
           </div>
         </div>
 

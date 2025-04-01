@@ -1,93 +1,114 @@
-import React, { useState, useEffect } from 'react';
-import Sidebar from './Sidebar';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Sidebar from "./Sidebar";
 
 const CheckAttendanceSection = () => {
   const [students, setStudents] = useState([]);
   const [attendanceData, setAttendanceData] = useState([]);
+  const [error, setError] = useState(null);
 
+  // Fetch students on component mount
   useEffect(() => {
     fetchStudents();
   }, []);
 
-  const fetchStudents = () => {
-    // Sample mock data for demonstration purposes
-    const mockStudents = [
-      { id: 1, name: 'John Doe' },
-      { id: 2, name: 'Jane Smith' },
-      { id: 3, name: 'Jim Brown' },
-    ];
-    setStudents(mockStudents);
-    initializeAttendanceData(mockStudents);
+  const fetchStudents = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/students/getall");
+      setStudents(response.data.students || []);
+      initializeAttendanceData(response.data.students);
+    } catch (error) {
+      console.error("Error fetching students:", error);
+      setError("Failed to load students. Please try again.");
+    }
   };
 
   const initializeAttendanceData = (students) => {
     const initialAttendanceData = students.map((student) => ({
       id: student.id,
       name: student.name,
-      status: 'Present', // Default to 'Present'
+      status: "Present", // Default to 'Present'
     }));
     setAttendanceData(initialAttendanceData);
   };
 
   const handleStatusChange = (id, status) => {
-    const updatedData = attendanceData.map((student) => {
-      if (student.id === id) {
-        return { ...student, status };
-      }
-      return student;
-    });
+    const updatedData = attendanceData.map((student) =>
+      student.id === id ? { ...student, status } : student
+    );
     setAttendanceData(updatedData);
   };
 
-  const handleSubmit = () => {
-    console.log('Attendance data submitted:', attendanceData);
-    // You can mock the submission here or add further logic to handle the submission
+  const handleSubmit = async () => {
+    try {
+      const formattedData = attendanceData.map(({ id, name, status }) => ({
+        studentId: id,
+        name,
+        status,
+      }));
+
+      await axios.post("http://localhost:8000/api/attendance", {
+        attendanceData: formattedData,
+      });
+
+      alert("Attendance submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting attendance data:", error);
+      setError("Failed to submit attendance. Please try again.");
+    }
   };
 
   return (
-    <div className="flex-1 p-6 max-w-4xl mx-auto">
-     <Sidebar/>
-      <div className="flex-1 p-6">
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Sidebar */}
+      <div className="w-1/4 bg-white p-4 shadow-md">
+        <Sidebar />
+      </div>
+
+      {/* Main Content */}
+      <div className="w-3/4 p-6">
+        <h2 className="text-2xl font-bold mb-4">Check Attendance</h2>
+
+        {/* Error Message */}
+        {error && <p className="text-red-500 mb-4">{error}</p>}
+
+        {/* Attendance List */}
         <div className="bg-white shadow-lg rounded-lg p-6">
-          <h2 className="text-2xl font-bold mb-4">Attendance</h2>
           <div className="space-y-4">
-            {students.map((student, index) => (
-              <div key={student.id} className="flex items-center space-x-4">
-                <div className="flex-1">
-                  <p className="text-lg">{student.name}</p>
+            {students.length > 0 ? (
+              students.map((student) => (
+                <div key={student.id} className="flex items-center space-x-4">
+                  <div className="flex-1">
+                    <p className="text-lg">{student.name}</p>
+                  </div>
+                  <div className="flex space-x-6">
+                    {["Present", "Absent", "Absent with apology"].map((status) => (
+                      <label key={status} className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          name={`status-${student.id}`} // Ensures only one selection per student
+                          checked={attendanceData.find((s) => s.id === student.id)?.status === status}
+                          onChange={() => handleStatusChange(student.id, status)}
+                          className={`form-radio h-5 w-5 ${
+                            status === "Present"
+                              ? "text-green-500"
+                              : status === "Absent"
+                              ? "text-red-500"
+                              : "text-yellow-500"
+                          }`}
+                        />
+                        <span>{status}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex space-x-6">
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={attendanceData[index]?.status === 'Present'}
-                      onChange={() => handleStatusChange(student.id, 'Present')}
-                      className="form-checkbox h-5 w-5 text-blue-500"
-                    />
-                    <span>Present</span>
-                  </label>
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={attendanceData[index]?.status === 'Absent'}
-                      onChange={() => handleStatusChange(student.id, 'Absent')}
-                      className="form-checkbox h-5 w-5 text-red-500"
-                    />
-                    <span>Absent</span>
-                  </label>
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={attendanceData[index]?.status === 'Absent with apology'}
-                      onChange={() => handleStatusChange(student.id, 'Absent with apology')}
-                      className="form-checkbox h-5 w-5 text-yellow-500"
-                    />
-                    <span>Absent with apology</span>
-                  </label>
-                </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-gray-500">No students available.</p>
+            )}
           </div>
+
+          {/* Submit Button */}
           <div className="mt-6">
             <button
               onClick={handleSubmit}

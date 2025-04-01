@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Sidebar from './Sidebar';
 
 const CheckExamSection = () => {
@@ -7,16 +8,36 @@ const CheckExamSection = () => {
   const [registrationNumber, setRegistrationNumber] = useState('');
   const [className, setClassName] = useState('');
   const [marks, setMarks] = useState('');
+  const [error, setError] = useState(null);
 
-  // Function to add a new exam
-  const handleAddExam = (e) => {
+  useEffect(() => {
+    fetchExams(); // Fetch exams on component mount
+  }, []);
+
+  const fetchExams = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/api/v1/exam');
+      setExamData(response.data);
+    } catch (error) {
+      console.error('Error fetching exams:', error);
+      setError('Failed to fetch exam data');
+    }
+  };
+
+  const handleAddExam = async (e) => {
     e.preventDefault();
     const newExam = { name, registrationNumber, className, marks: parseInt(marks) };
-    setExamData([...examData, newExam]);
-    setName('');
-    setRegistrationNumber('');
-    setClassName('');
-    setMarks('');
+    try {
+      const response = await axios.post('http://localhost:4000/api/v1/exam', newExam);
+      setExamData([...examData, response.data]);
+      setName('');
+      setRegistrationNumber('');
+      setClassName('');
+      setMarks('');
+    } catch (error) {
+      console.error('Error adding exam:', error);
+      setError('Failed to add exam');
+    }
   };
 
   const calculateTotalMarks = () => {
@@ -24,11 +45,13 @@ const CheckExamSection = () => {
   };
 
   return (
-    <div className="flex-1 p-6 max-w-4xl mx-auto">
-     <Sidebar/>
-      <div className="w-1/4 bg-gray-200 p-4">
-        {/* Sidebar content goes here */}
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Sidebar */}
+      <div className="w-1/4 bg-white p-4 shadow-md">
+        <Sidebar />
       </div>
+
+      {/* Main Content */}
       <div className="flex-1 p-6">
         <h1 className="text-3xl font-semibold mb-6">Exam Details</h1>
 
@@ -82,6 +105,7 @@ const CheckExamSection = () => {
               Add Exam
             </button>
           </form>
+          {error && <div className="text-red-500 mt-2">{error}</div>}
         </div>
 
         {/* Total Marks */}
