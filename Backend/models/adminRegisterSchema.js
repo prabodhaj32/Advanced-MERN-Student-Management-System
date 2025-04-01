@@ -1,20 +1,31 @@
-// models/adminRegisterSchema.js
 import mongoose from "mongoose";
-import validator from "validator";
+import bcrypt from "bcryptjs";
 
-const adminRegisterSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: true,
+    required: [true, "Email is required"],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, "Please provide a valid email"],
   },
   password: {
     type: String,
-    required: true,
+    required: [true, "Password is required"],
     minlength: 6,
   },
 });
 
-export const Admin = mongoose.model("Admin", adminRegisterSchema);
+// Hash password before saving
+adminSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
+
+// Compare password
+adminSchema.methods.isValidPassword = async function (password) {
+  return bcrypt.compare(password, this.password);
+};
+
+const Admin = mongoose.models.Admin || mongoose.model("Admin", adminSchema);
+export { Admin };

@@ -1,33 +1,40 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const AdminSignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  
-  const handleSignIn = (e) => {
-    e.preventDefault();
+  const [errorMessage, setErrorMessage] = useState('');
 
-    // Simulate a successful sign-in
-    if (email === 'admin123@gamil.com' && password === 'admin123') {
-      setSuccessMessage('Sign-in successful! Redirecting...');
-      setTimeout(() => {
-        // Redirect to the admin dashboard (for demonstration)
-        window.location.href = '/admin/dashboard';
-      }, 2000);
-    } else {
-      setSuccessMessage('Invalid credentials. Please try again.');
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    setSuccessMessage('');
+    setErrorMessage('');
+
+    try {
+      const response = await axios.post('http://localhost:8000/api/register/signin', { email, password });
+      if (response.status === 200) {
+        setSuccessMessage('Sign-in successful! Redirecting...');
+        setTimeout(() => {
+          window.location.href = '/admin/dashboard';
+        }, 2000);
+      } else {
+        setErrorMessage('Sign-in failed. Please try again.');
+      }
+    } catch (error) {
+      setErrorMessage('Invalid credentials. Please try again.');
+      console.error('Error during sign-in:', error);
     }
   };
-  
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
         <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">Admin Sign In</h2>
-        
-        {successMessage && (
-          <div className="text-green-500 text-center mb-4">{successMessage}</div>
-        )}
+
+        {successMessage && <div className="text-green-500 text-center mb-4">{successMessage}</div>}
+        {errorMessage && <div className="text-red-500 text-center mb-4">{errorMessage}</div>}
 
         <form onSubmit={handleSignIn} className="space-y-4">
           <input

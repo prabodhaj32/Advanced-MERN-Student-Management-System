@@ -9,7 +9,7 @@ const AdminRegister = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/api/admin', { email, password });
+      const response = await axios.post('http://localhost:8000/api/register/admin', { email, password });
       if (response.status === 200) {
         setSuccessMessage('Registration successful! Redirecting...');
         setTimeout(() => {

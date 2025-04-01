@@ -1,24 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import Sidebar from './Sidebar'; // Import Sidebar component
-import EventCalendar from './EventCalender';
-import Announcement from './Announcement';
-import Performance from './Performance';
-
-// Simulated data for events, announcements, and student performance
-const mockEvents = [
-  { id: 1, title: "Exam Week", date: "2025-03-30" },
-  { id: 2, title: "Sports Day", date: "2025-04-15" },
-];
-
-const mockAnnouncements = [
-  { id: 1, announcement: "Exam results will be published next week." },
-  { id: 2, announcement: "New semester starts on May 1st." },
-];
-
-const mockStudentPerformance = [
-  { id: 1, studentName: "John Doe", grade: "A" },
-  { id: 2, studentName: "Jane Smith", grade: "B" },
-];
+import React, { useState, useEffect } from "react";
+import axios from "axios"; // Import axios
+import Sidebar from "./Sidebar"; // Import Sidebar component
+import EventCalendar from "./EventCalender"; // Fixed component name
+import Announcement from "./Announcement";
+import Performance from "./Performance";
 
 const AdminDashboard = () => {
   const [events, setEvents] = useState([]);
@@ -26,11 +11,37 @@ const AdminDashboard = () => {
   const [studentPerformance, setStudentPerformance] = useState([]);
 
   useEffect(() => {
-    // Simulating fetching data
-    setEvents(mockEvents);
-    setAnnouncements(mockAnnouncements);
-    setStudentPerformance(mockStudentPerformance);
+    fetchEvents();
+    fetchAnnouncements();
+    fetchStudentPerformance();
   }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/events/getall");
+      setEvents(response.data.events || []);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  };
+
+  const fetchAnnouncements = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/announcements/getall");
+      setAnnouncements(response.data.announcements || []);
+    } catch (error) {
+      console.error("Error fetching announcements:", error);
+    }
+  };
+
+  const fetchStudentPerformance = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/performance/getall");
+      setStudentPerformance(response.data.performance || []);
+    } catch (error) {
+      console.error("Error fetching student performance:", error);
+    }
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-100">

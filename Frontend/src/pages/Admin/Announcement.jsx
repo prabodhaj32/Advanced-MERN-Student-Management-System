@@ -1,49 +1,55 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // Import axios
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from "./Sidebar";
-// Simulated announcements data
-const mockAnnouncements = [
-  { id: 1, announcement: "First announcement" },
-  { id: 2, announcement: "Second announcement" }
-];
 
 const Announcement = () => {
-  // State for managing announcement
   const [announcement, setAnnouncement] = useState('');
-  const [announcements, setAnnouncements] = useState(mockAnnouncements);
+  const [announcements, setAnnouncements] = useState([]);
 
-  // Function to fetch announcements (simulated)
-  const fetchAnnouncements = () => {
-    setAnnouncements(mockAnnouncements); // Simulate fetching announcements
+  // Function to fetch announcements
+  const fetchAnnouncements = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/api/announcements/getall');
+      setAnnouncements(response.data.announcements);
+    } catch (error) {
+      console.error('Error fetching announcements:', error);
+    }
   };
 
   useEffect(() => {
     fetchAnnouncements();
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate adding a new announcement
-    const newAnnouncement = { id: Date.now(), announcement };
-    setAnnouncements([...announcements, newAnnouncement]);
-    setAnnouncement('');
-    toast.success('Announcement sent successfully');
+    try {
+      const response = await axios.post('http://localhost:8000/api/announcements', {
+        announcement, // Directly using state variable
+      });
+      toast.success('Announcement sent successfully');
+      setAnnouncement('');
+      fetchAnnouncements(); // Refresh announcements list
+    } catch (error) {
+      console.error('Error sending announcement:', error);
+      toast.error('Error sending announcement');
+    }
   };
 
   return (
-    <div className="flex-1 p-6 max-w-4xl mx-auto">
-     <Sidebar/>
-     
-      <ToastContainer />
-      {/* Sidebar is omitted as you are focusing on the core functionality */}
-      <div className="flex-1 p-6">
+    <div className="flex">
+      <Sidebar /> 
+      <div className="flex-1 p-6 max-w-4xl mx-auto">
+        <ToastContainer />
         <h1 className="text-3xl font-semibold mb-6">Announcement</h1>
 
         {/* Announcement Form */}
         <form onSubmit={handleSubmit} className="space-y-4 mb-6">
           <div>
-            <label htmlFor="announcement" className="block text-lg font-medium text-gray-700">Announcement:</label>
+            <label htmlFor="announcement" className="block text-lg font-medium text-gray-700">
+              Announcement:
+            </label>
             <textarea
               id="announcement"
               value={announcement}
@@ -64,9 +70,9 @@ const Announcement = () => {
         {/* Display Announcements */}
         <h2 className="text-2xl font-semibold mb-4">Announcements</h2>
         <ul className="space-y-4">
-          {announcements.map((announcement) => (
-            <li key={announcement.id} className="bg-gray-100 p-4 rounded-lg shadow-md">
-              <p className="text-lg text-gray-800">{announcement.announcement}</p>
+          {announcements.map((announcementItem) => (
+            <li key={announcementItem._id || announcementItem.id} className="bg-gray-100 p-4 rounded-lg shadow-md">
+              <p className="text-lg text-gray-800">{announcementItem.announcement}</p>
             </li>
           ))}
         </ul>

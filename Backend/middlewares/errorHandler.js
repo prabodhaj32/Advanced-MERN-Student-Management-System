@@ -1,22 +1,15 @@
-// Handles validation and custom errors
-export const handleValidationError = (message, statusCode = 400, next) => {
+// Improved error handler middleware
+export const handleValidationError = (message, statusCode = 400) => {
   const error = new Error(message);
   error.statusCode = statusCode;
-  return next(error); // Ensure the error is passed properly
+  return error;
 };
 
-// General error-handling middleware
 export const errorHandler = (err, req, res, next) => {
-  console.error("❌ Error:", err.message);
-
-  if (res.headersSent) {
-    return next(err); // Prevent multiple responses
-  }
-
   const statusCode = err.statusCode || 500;
-
+  const message = err.message || "Internal Server Error";
   res.status(statusCode).json({
     success: false,
-    message: err.message || "Internal Server Error",
+    message: message,
   });
 };
