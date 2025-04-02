@@ -23,18 +23,25 @@ const StudentDashboard = () => {
   ];
 
   return (
-    <div className="flex-1 p-6 max-w-4xl mx-auto">
-     <Sidebar/>
-     
-      <div className="flex-1 p-6">
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main Content */}
+      <div className="flex-1 p-6 ml-20 md:ml-64 transition-all duration-300">
         {/* Overview Section */}
         <section className="mb-8">
           <h2 className="text-3xl font-bold mb-4 text-gray-700">Overview</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {overviewData.map((item, index) => (
-              <div key={index} className="bg-white p-6 shadow-md rounded-lg text-center">
-                <h3 className="text-xl font-semibold text-gray-600">{item.title}</h3>
-                <p className="text-2xl font-bold text-blue-600">{item.value}</p>
+          {/* Dashboard Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            {[
+              { title: "Total Students", value: "500", color: "bg-blue-500" },
+              { title: "Total Teachers", value: "50", color: "bg-green-500" },
+              { title: "Total Classes", value: "50", color: "bg-yellow-500" },
+            ].map((card, index) => (
+              <div key={index} className={`p-6 ${card.color} rounded-lg shadow-md text-center transform hover:scale-105 transition duration-300`}>
+                <h3 className="text-xl font-semibold text-white">{card.title}</h3>
+                <p className="text-2xl font-bold text-white">{card.value}</p>
               </div>
             ))}
           </div>
@@ -45,7 +52,7 @@ const StudentDashboard = () => {
           <h2 className="text-3xl font-bold mb-4 text-gray-700">Recent Activity</h2>
           <ul className="space-y-4">
             {recentActivity.map((activity, index) => (
-              <li key={index} className="bg-white p-4 shadow-md rounded-lg">
+              <li key={index} className="bg-white p-4 shadow-md rounded-lg transform hover:scale-105 transition duration-300">
                 {activity}
               </li>
             ))}
@@ -57,7 +64,7 @@ const StudentDashboard = () => {
           <h2 className="text-3xl font-bold mb-4 text-gray-700">Upcoming Events</h2>
           <ul className="space-y-4">
             {upcomingEvents.map((event, index) => (
-              <li key={index} className="bg-white p-4 shadow-md rounded-lg">
+              <li key={index} className="bg-white p-4 shadow-md rounded-lg transform hover:scale-105 transition duration-300">
                 {event}
               </li>
             ))}

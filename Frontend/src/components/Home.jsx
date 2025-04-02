@@ -103,6 +103,35 @@ const Home = () => {
         setIsModalOpen(true);
     };
 
+    const openCommunityModal = () => {
+        setModalContent(
+            <div className="space-y-6">
+                <h3 className="text-3xl font-bold text-gray-900" data-aos="fade-right">Community</h3>
+                <p className="text-gray-700 leading-relaxed" data-aos="fade-up">
+                    Our community is built on shared values and commitment to academic excellence, personal development, and service.
+                </p>
+            </div>
+        );
+        setIsModalOpen(true);
+    };
+
+    const openContactUsModal = () => {
+        setModalContent(
+            <div className="space-y-6">
+                <h3 className="text-3xl font-bold text-gray-900" data-aos="fade-right">Contact Us</h3>
+                <p className="text-gray-700 leading-relaxed" data-aos="fade-up">
+                    Feel free to reach out to us via the following methods:
+                </p>
+                <ul className="list-disc list-inside space-y-2 text-gray-700" data-aos="fade-up" data-aos-delay="200">
+                    <li>Email: info@excellenceschool.com</li>
+                    <li>Phone: 081 2 353 662</li>
+                    <li>Location: 123 Park Road, Kandy, Sri Lanaka</li>
+                </ul>
+            </div>
+        );
+        setIsModalOpen(true);
+    };
+
     const closeModal = () => {
         setIsModalOpen(false);
         setModalContent('');
@@ -119,35 +148,37 @@ const Home = () => {
                         className={`h-14 transform hover:scale-110 transition-transform duration-300 ${isScrolled ? 'h-12' : 'h-14'}`}
                         data-aos="fade-right"
                     />
-                    <div className="flex space-x-8 ">
-                        {['About Us', 'Products', 'Contact Us'].map((item, idx) => (
+                    <div className="flex items-center space-x-8">
+                        <div className="flex space-x-8">
+                            {['About Us', 'Community', 'Contact Us'].map((item, idx) => (
+                                <button 
+                                    key={idx}
+                                    onClick={item === 'About Us' ? openAboutUsModal : item === 'Community' ? openCommunityModal : openContactUsModal}
+                                    className={`text-gray-700 hover:text-blue-600 transition-all duration-300 transform hover:scale-105 font-medium ${isScrolled ? 'text-sm' : 'text-base'}`}
+                                    data-aos="fade-down"
+                                    data-aos-delay={idx * 100}
+                                >
+                                    {item}
+                                </button>
+                            ))}
+                        </div>
+                        <div className="flex space-x-4">
                             <button 
-                                key={idx}
-                                onClick={item === 'About Us' ? openAboutUsModal : undefined}
-                                className={`text-gray-700 hover:text-blue-600 transition-all duration-300 transform hover:scale-105 font-medium ${isScrolled ? 'text-sm' : 'text-base'}`}
-                                data-aos="fade-down"
-                                data-aos-delay={idx * 100}
+                                onClick={handleLoginClick} 
+                                className={`bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-2 rounded-full hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-md ${isScrolled ? 'px-5 py-1.5 text-sm' : 'px-6 py-2'}`}
+                                data-aos="fade-left"
                             >
-                                {item}
+                                Sign In
                             </button>
-                        ))}
-                    </div>
-                    <div className="flex space-x-4">
-                        <button 
-                            onClick={handleLoginClick} 
-                            className={`bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-2 rounded-full hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-md ${isScrolled ? 'px-5 py-1.5 text-sm' : 'px-6 py-2'}`}
-                            data-aos="fade-left"
-                        >
-                            Sign In
-                        </button>
-                        <button 
-                            onClick={handleLoginClick} 
-                            className={`bg-gradient-to-r from-gray-400 to-gray-500 text-white px-6 py-2 rounded-full hover:from-green-500 hover:to-green-600 transition-all duration-300 transform hover:scale-105 shadow-md ${isScrolled ? 'px-5 py-1.5 text-sm' : 'px-6 py-2'}`}
-                            data-aos="fade-left"
-                            data-aos-delay="100"
-                        >
-                            Guest Mode
-                        </button>
+                            <button 
+                                onClick={handleLoginClick} 
+                                className={`bg-gradient-to-r from-gray-400 to-gray-500 text-white px-6 py-2 rounded-full hover:from-green-500 hover:to-green-600 transition-all duration-300 transform hover:scale-105 shadow-md ${isScrolled ? 'px-5 py-1.5 text-sm' : 'px-6 py-2'}`}
+                                data-aos="fade-left"
+                                data-aos-delay="100"
+                            >
+                                Guest Mode
+                            </button>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -462,11 +493,11 @@ const Home = () => {
                             <ul className="space-y-4">
                                 <li className="flex items-center text-gray-300" data-aos="fade-right" data-aos-delay="300">
                                     <MapPinIcon className="mr-3" size={24} />
-                                    <span className="leading-relaxed">123 Education Lane, City, Country</span>
+                                    <span className="leading-relaxed">123 Park Road, Kandy, Sri Lanka</span>
                                 </li>
                                 <li className="flex items-center text-gray-300" data-aos="fade-right" data-aos-delay="350">
                                     <PhoneIcon className="mr-3" size={24} />
-                                    <span className="leading-relaxed">+1 234 567 890</span>
+                                    <span className="leading-relaxed">081 2 353 662</span>
                                 </li>
                                 <li className="flex items-center text-gray-300" data-aos="fade-right" data-aos-delay="400">
                                     <MailIcon className="mr-3" size={24} />
@@ -485,7 +516,7 @@ const Home = () => {
             <Modal
                 isOpen={isModalOpen}
                 onClose={closeModal}
-                title="About Us"
+                title={modalContent && modalContent.props && modalContent.props.children[0].props.children}
                 actions={[
                     { label: 'Close', onClick: closeModal, primary: true },
                 ]}
@@ -529,21 +560,21 @@ const stats = [
 const testimonials = [
     {
         initials: "JD",
-        name: "John Doe",
+        name: "Anura Perera",
         role: "Parent of 10th Grader",
         quote: "The teachers at Excellence School go above and beyond to ensure each student's success. My child has flourished here.",
         rating: 5
     },
     {
         initials: "AS",
-        name: "Alice Smith",
+        name: "A.D.Dissanayake",
         role: "Alumni (Class of 2020)",
         quote: "The education I received prepared me perfectly for university. The support system here is unmatched.",
         rating: 5
     },
     {
         initials: "RB",
-        name: "Robert Brown",
+        name: "Malith Harshana",
         role: "Community Partner",
         quote: "Working with Excellence School has been a pleasure. Their commitment to community engagement is inspiring.",
         rating: 4

@@ -17,24 +17,16 @@ const StudentAssignments = () => {
       setAssignments(response.data.assignments || []);
     } catch (error) {
       console.error("Error fetching assignments:", error);
-      setError("Error fetching assignments");
+      setError("Error fetching assignments. Please try again later.");
     }
   };
 
-  const handleDoAssignment = async (id) => {
-    try {
-      await axios.put(`http://localhost:8000/api/assignments/${id}/mark-done`);
-      setAssignments(assignments.map((assignment) =>
-        assignment._id === id ? { ...assignment, done: true } : assignment
-      ));
-    } catch (error) {
-      console.error("Error marking assignment as done:", error);
-    }
+  const handleDoAssignment = (id) => {
+    // Implement your logic for handling assignment submission
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
+    <div className="flex-1 p-6 max-w-4xl mx-auto">
       <Sidebar />
 
       {/* Main Content */}
@@ -53,7 +45,7 @@ const StudentAssignments = () => {
                 <p className="text-gray-600">{assignment.description}</p>
 
                 {!assignment.done ? (
-                  <AssignmentForm onSubmit={() => handleDoAssignment(assignment._id)} />
+                  <AssignmentForm onSubmit={(opinion) => handleDoAssignment(assignment._id, opinion)} />
                 ) : (
                   <p className="text-green-600 font-semibold">Assignment Done</p>
                 )}
@@ -79,9 +71,8 @@ const AssignmentForm = ({ onSubmit }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (opinion.trim() !== "") {
-      onSubmit();
-      alert("Assignment Submitted!");
-      setOpinion("");
+      onSubmit(opinion);
+      setOpinion(""); // Reset input field after submission
     } else {
       alert("Please provide your opinion/assignment.");
     }

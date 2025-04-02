@@ -29,7 +29,7 @@ const TeacherSignIn = () => {
         <h2 className="text-2xl font-semibold mb-6 text-center">Teacher Sign In</h2>
         
         {errorMessage && (
-          <p className="text-red-500 text-center mb-4">{errorMessage}</p>
+          <p className="text-green-500 text-center mb-4">{errorMessage}</p>
         )}
         
         <form onSubmit={handleSignIn} className="space-y-4">
