@@ -68,10 +68,9 @@ const EventCalendar = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
+    <div className="flex-1 p-6 max-w-4xl mx-auto">
       <Sidebar />
-
+      
       {/* Main Content */}
       <div className={`flex-1 p-6 transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
         {/* Toggle Sidebar Button */}

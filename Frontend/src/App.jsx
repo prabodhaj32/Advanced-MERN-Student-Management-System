@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import ChooseUser from "./components/ChooseUser";
+
 import AdminSignIn from "./components/AdminSignIn";
 import StudentSignIn from "./components/StudentSignIn";
 import TeacherSignIn from "./components/TeacherSignIn";
@@ -42,6 +43,7 @@ const App = () => {
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/choose-user" element={<ChooseUser />} />
+      
           <Route path="/admin-signin" element={<AdminSignIn />} />
           <Route exact path="/student-signIn" element={<StudentSignIn />} />
           <Route exact path="/teacher-signIn" element={<TeacherSignIn />} />
