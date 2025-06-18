@@ -1,4 +1,4 @@
-// controllers/announcementController.js
+
 import { Announcement } from "../models/announcementSchema.js";
 import { handleValidationError } from "../middlewares/errorHandler.js";
 

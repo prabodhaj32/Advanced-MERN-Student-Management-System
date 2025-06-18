@@ -28,7 +28,7 @@ const corsOptions = {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      console.error(`❌ CORS Error: Origin '${origin}' is not allowed.`);
+      console.error(` CORS Error: Origin '${origin}' is not allowed.`);
       callback(new Error("Not allowed by CORS"));
     }
   },
@@ -75,9 +75,9 @@ mongoose
     app.use(errorHandler);
 
     // Start the server
-    app.listen(PORT, () => console.log(`🚀 Server is running on port ${PORT}`));
+    app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
   })
   .catch((error) => {
-    console.error("❌ Error connecting to MongoDB:", error);
+    console.error("Error connecting to MongoDB:", error);
     process.exit(1); // Exit process on failure
   });

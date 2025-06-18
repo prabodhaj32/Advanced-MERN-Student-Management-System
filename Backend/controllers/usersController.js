@@ -1,4 +1,4 @@
-import { handleValidationError } from "../middlewares/errorHandler.js";
+
 import { Admin } from "../models/adminRegisterSchema.js";
 import { Student } from "../models/usersSchema.js";
 import { Teacher } from "../models/usersSchema.js";

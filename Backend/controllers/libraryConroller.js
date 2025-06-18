@@ -1,5 +1,5 @@
 import { Book } from "../models/librarySchema.js";
-import { handleValidationError } from "../middlewares/errorHandler.js";
+
 
 // Create a new book
 export const createBook = async (req, res, next) => {

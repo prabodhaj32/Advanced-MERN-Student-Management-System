@@ -3,7 +3,7 @@ import { markAttendance, getAllAttendance } from "../controllers/attendanceContr
 
 const router = express.Router();
 
-router.post('/', markAttendance);
-router.get('/getall', getAllAttendance);
+router.post("/", markAttendance);
+router.get("/getall", getAllAttendance);
 
 export default router;

@@ -10,7 +10,7 @@ export const adminRegister= async (req, res, next) => {
         handleValidationError("Please Fill Form!", 400);
   }
 
-    // Check if the admin already exists in the database
+    // Check if the admin 
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
       return res.status(400).json({ success: false, message: "Admin already exists" });
