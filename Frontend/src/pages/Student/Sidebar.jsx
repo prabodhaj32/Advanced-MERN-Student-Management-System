@@ -23,7 +23,7 @@ const Sidebar = () => {
         <SidebarItem to="/student/assignments" icon={<BsFileText />} text="Assignments" isOpen={isOpen} />
         <SidebarItem to="/student/exams" icon={<BsBook />} text="Exams" isOpen={isOpen} />
         <SidebarItem to="/student/performance" icon={<BsGraphDown />} text="Performance" isOpen={isOpen} />
-        <SidebarItem to="/student/attendance" icon={<BsCalendar />} text="Attendance" isOpen={isOpen} />
+        {/* <SidebarItem to="/student/attendance" icon={<BsCalendar />} text="Attendance" isOpen={isOpen} /> */}
         <SidebarItem to="/student/library" icon={<BsBook />} text="Library" isOpen={isOpen} />
         <SidebarItem to="/student/communication" icon={<BsChatDots />} text="Announcement" isOpen={isOpen} />
         <SidebarItem to="/student/settings" icon={<BsGear />} text="Profile" isOpen={isOpen} />

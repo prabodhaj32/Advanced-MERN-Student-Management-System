@@ -15,21 +15,22 @@ const CheckAttendanceSection = () => {
   const fetchStudents = async () => {
     try {
       const response = await axios.get("http://localhost:8000/api/students/getall");
-      setStudents(response.data.students || []);
-      initializeAttendanceData(response.data.students);
+      const studentsList = response.data.students || [];
+
+      setStudents(studentsList);
+
+      // Initialize attendanceData with student._id, not id
+      const initialAttendanceData = studentsList.map((student) => ({
+        id: student._id, // Use _id from MongoDB
+        name: student.name,
+        status: "Present", // Default status
+      }));
+
+      setAttendanceData(initialAttendanceData);
     } catch (error) {
       console.error("Error fetching students:", error);
       setError("Failed to load students. Please try again.");
     }
-  };
-
-  const initializeAttendanceData = (students) => {
-    const initialAttendanceData = students.map((student) => ({
-      id: student.id,
-      name: student.name,
-      status: "Present", // Default to 'Present'
-    }));
-    setAttendanceData(initialAttendanceData);
   };
 
   const handleStatusChange = (id, status) => {
@@ -41,9 +42,9 @@ const CheckAttendanceSection = () => {
 
   const handleSubmit = async () => {
     try {
-      const formattedData = attendanceData.map(({ id, name, status }) => ({
-        studentId: id,
-        name,
+      // Format data to match backend schema { student: ObjectId, status: string }
+      const formattedData = attendanceData.map(({ id, status }) => ({
+        student: id,
         status,
       }));
 
@@ -77,18 +78,20 @@ const CheckAttendanceSection = () => {
           <div className="space-y-4">
             {students.length > 0 ? (
               students.map((student) => (
-                <div key={student.id} className="flex items-center space-x-4">
+                <div key={student._id} className="flex items-center space-x-4">
                   <div className="flex-1">
                     <p className="text-lg">{student.name}</p>
                   </div>
                   <div className="flex space-x-6">
                     {["Present", "Absent", "Absent with apology"].map((status) => (
-                      <label key={status} className="flex items-center space-x-2">
+                      <label key={`${student._id}-${status}`} className="flex items-center space-x-2">
                         <input
                           type="radio"
-                          name={`status-${student.id}`} // Ensures only one selection per student
-                          checked={attendanceData.find((s) => s.id === student.id)?.status === status}
-                          onChange={() => handleStatusChange(student.id, status)}
+                          name={`status-${student._id}`}
+                          checked={
+                            attendanceData.find((s) => s.id === student._id)?.status === status
+                          }
+                          onChange={() => handleStatusChange(student._id, status)}
                           className={`form-radio h-5 w-5 ${
                             status === "Present"
                               ? "text-green-500"

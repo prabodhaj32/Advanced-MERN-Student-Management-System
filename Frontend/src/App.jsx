@@ -18,7 +18,7 @@ import SettingsProfile from "./pages/Admin/SettingsProfile";
 import StudentAssignments from './pages/Student/Assignments';
 import ExamSection from './pages/Student/Exams';
 import PerformanceSection from './pages/Student/Performance';
-import AttendanceSection from './pages/Student/Attendance';
+// import AttendanceSection from './pages/Student/Attendance'; 
 import LibrarySection from './pages/Student/Library';
 import AnnouncementSection from './pages/Student/Announcement';
 import ProfileSection from './pages/Student/Profile';
@@ -65,7 +65,7 @@ const App = () => {
           <Route exact path="/student/assignments" element={<StudentAssignments />} />
         <Route exact path="/student/exams" element={<ExamSection />} />
         <Route exact path="/student/performance" element={<PerformanceSection />} />
-        <Route exact path="/student/attendance" element={<AttendanceSection />} />
+        {/* <Route exact path="/student/attendance" element={<AttendanceSection />} /> */}
         <Route exact path="/student/library" element={<LibrarySection />} />
         <Route exact path="/student/communication" element={<AnnouncementSection/>} />
         <Route exact path="/student/settings" element={<ProfileSection />} />
