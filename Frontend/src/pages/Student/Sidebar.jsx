@@ -1,53 +1,103 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { 
-  BsHouse, BsGraphUp, BsFileText, BsBook, BsGraphDown, BsCalendar, 
-  BsChatDots, BsGear 
-} from 'react-icons/bs';
+  Home, LayoutDashboard, FileText, BookOpen, TrendingUp, 
+  Calendar, MessageSquare, Settings, ChevronLeft, ChevronRight,
+  GraduationCap
+} from 'lucide-react';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const location = useLocation();
+
+  const menuItems = [
+    { to: '/', icon: Home, text: 'Home', exact: true },
+    { to: '/student/dashboard', icon: LayoutDashboard, text: 'Dashboard' },
+    { to: '/student/assignments', icon: FileText, text: 'Assignments' },
+    { to: '/student/exams', icon: BookOpen, text: 'Exams' },
+    { to: '/student/performance', icon: TrendingUp, text: 'Performance' },
+    { to: '/student/library', icon: BookOpen, text: 'Library' },
+    { to: '/student/communication', icon: MessageSquare, text: 'Announcement' },
+    { to: '/student/settings', icon: Settings, text: 'Profile' },
+  ];
+
+  const isActive = (path, exact = false) => {
+    if (exact) {
+      return location.pathname === path;
+    }
+    return location.pathname.startsWith(path);
+  };
 
   return (
-    <div className={`fixed top-0 left-0 h-full bg-gray-800 text-white transition-all duration-300 ${isOpen ? 'w-64' : 'w-20'}`}>
-      
+    <aside className={`fixed top-0 left-0 h-full bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white transition-all duration-300 ease-in-out z-50 ${
+      isOpen ? 'w-64' : 'w-20'
+    }`}>
       {/* Sidebar Header */}
-      <div className="flex flex-col items-center py-4">
-        {isOpen && <h2 className="text-lg font-semibold">Student Dashboard</h2>}
+      <div className="flex items-center justify-between p-6 border-b border-gray-700">
+        {isOpen && (
+          <div className="flex items-center space-x-3 animate-fade-in">
+            <div className="p-2 bg-gradient-to-br from-green-500 to-green-600 rounded-xl">
+              <GraduationCap className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-white">Student</h2>
+              <p className="text-xs text-gray-400">Dashboard</p>
+            </div>
+          </div>
+        )}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500"
+          aria-label="Toggle sidebar"
+        >
+          {isOpen ? <ChevronLeft className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+        </button>
       </div>
 
       {/* Sidebar Navigation */}
-      <ul className="space-y-2">
-        <SidebarItem to="/" icon={<BsHouse />} text="Home" isOpen={isOpen} />
-        <SidebarItem to="/student/dashboard" icon={<BsGraphUp />} text="Dashboard" isOpen={isOpen} />
-        <SidebarItem to="/student/assignments" icon={<BsFileText />} text="Assignments" isOpen={isOpen} />
-        <SidebarItem to="/student/exams" icon={<BsBook />} text="Exams" isOpen={isOpen} />
-        <SidebarItem to="/student/performance" icon={<BsGraphDown />} text="Performance" isOpen={isOpen} />
-        {/* <SidebarItem to="/student/attendance" icon={<BsCalendar />} text="Attendance" isOpen={isOpen} /> */}
-        <SidebarItem to="/student/library" icon={<BsBook />} text="Library" isOpen={isOpen} />
-        <SidebarItem to="/student/communication" icon={<BsChatDots />} text="Announcement" isOpen={isOpen} />
-        <SidebarItem to="/student/settings" icon={<BsGear />} text="Profile" isOpen={isOpen} />
-      </ul>
+      <nav className="p-4 space-y-2 overflow-y-auto h-[calc(100vh-5rem)]">
+        {menuItems.map((item, index) => {
+          const Icon = item.icon;
+          const active = isActive(item.to, item.exact);
+          return (
+            <Link
+              key={index}
+              to={item.to}
+              className={`group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                active
+                  ? 'bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg shadow-green-500/50'
+                  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+              }`}
+            >
+              <Icon className={`w-5 h-5 flex-shrink-0 ${active ? 'text-white' : 'text-gray-400 group-hover:text-white'}`} />
+              {isOpen && (
+                <span className={`font-medium transition-opacity duration-200 ${
+                  isOpen ? 'opacity-100' : 'opacity-0'
+                }`}>
+                  {item.text}
+                </span>
+              )}
+            </Link>
+          );
+        })}
+      </nav>
 
-      {/* Toggle Button */}
-      <button 
-        onClick={() => setIsOpen(!isOpen)} 
-        className="absolute top-4 right-2 bg-gray-700 text-white p-2 rounded-full focus:outline-none hover:bg-gray-600 transition"
-      >
-        {isOpen ? '◀' : '▶'}
-      </button>
-    </div>
+      {/* Sidebar Footer */}
+      {isOpen && (
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-700 bg-gray-800/50 backdrop-blur-sm animate-fade-in">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center">
+              <span className="text-white font-semibold text-sm">S</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-white truncate">Student User</p>
+              <p className="text-xs text-gray-400 truncate">student@school.com</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </aside>
   );
 };
-
-/* Reusable Sidebar Item */
-const SidebarItem = ({ to, icon, text, isOpen }) => (
-  <li className="hover:bg-gray-700 transition-colors duration-200">
-    <Link to={to} className="flex items-center p-3 gap-x-3">
-      {icon}
-      {isOpen && <span>{text}</span>}
-    </Link>
-  </li>
-);
 
 export default Sidebar;

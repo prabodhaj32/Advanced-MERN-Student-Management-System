@@ -11,40 +11,41 @@ import {
   Legend,
   CategoryScale,
 } from "chart.js";
+import { TrendingUp, Award, Calendar } from "lucide-react";
 
-// Register the required components
 ChartJS.register(LineElement, PointElement, LinearScale, Title, Tooltip, Legend, CategoryScale);
 
 const PerformanceSection = () => {
-  // Sample performance data
   const performanceData = {
     months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    marks: [80, 85, 90, 88, 92, 85], // Sample marks for each month
-    totalMarks: 520, // Sample total marks for the year
+    marks: [80, 85, 90, 88, 92, 85],
+    totalMarks: 520,
   };
 
-  // Line chart data
   const lineChartData = {
     labels: performanceData.months,
     datasets: [
       {
         label: "Performance Trends",
-        fill: false,
-        lineTension: 0.2,
-        backgroundColor: "#007bff",
-        borderColor: "#007bff",
-        pointBackgroundColor: "#007bff",
+        fill: true,
+        lineTension: 0.4,
+        backgroundColor: "rgba(34, 197, 94, 0.1)",
+        borderColor: "rgba(34, 197, 94, 1)",
+        pointBackgroundColor: "rgba(34, 197, 94, 1)",
         pointBorderColor: "#fff",
         pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "#007bff",
+        pointHoverBorderColor: "rgba(34, 197, 94, 1)",
+        pointRadius: 6,
+        pointHoverRadius: 8,
+        borderWidth: 3,
         data: performanceData.marks,
       },
     ],
   };
 
-  // Chart options
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: true,
@@ -59,36 +60,77 @@ const PerformanceSection = () => {
         title: {
           display: true,
           text: "Months",
+          font: { size: 14, weight: 'bold' },
+        },
+        grid: {
+          color: "rgba(0, 0, 0, 0.05)",
         },
       },
       y: {
         title: {
           display: true,
           text: "Marks",
+          font: { size: 14, weight: 'bold' },
         },
         beginAtZero: true,
-        min: 70, // Set a minimum value for better visualization
+        min: 70,
+        grid: {
+          color: "rgba(0, 0, 0, 0.05)",
+        },
       },
     },
   };
 
-  return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
-      {/* Sidebar */}
-      <div className="md:w-1/4 w-full bg-white p-4 shadow-md">
-        <Sidebar />
-      </div>
+  const averageMarks = Math.round(performanceData.marks.reduce((a, b) => a + b, 0) / performanceData.marks.length);
 
-      {/* Main Content */}
-      <div className="md:w-3/4 w-full p-6">
-        <h2 className="text-2xl font-bold mb-4">Performance</h2>
-        <div className="bg-white p-6 shadow-md rounded-md">
-          <div className="mb-4">
+  return (
+    <div className="flex min-h-screen bg-gradient-to-br from-gray-50 via-green-50/30 to-blue-50/30">
+      <Sidebar />
+
+      <div className="flex-1 p-6 md:p-8 ml-20 md:ml-64 transition-all duration-300">
+        {/* Header */}
+        <div className="mb-8 animate-fade-in">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Performance Overview</h1>
+          <p className="text-gray-600">Track your academic performance over time</p>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="bg-white rounded-2xl shadow-soft p-6 border border-gray-100 animate-slide-up">
+            <div className="flex items-center space-x-4">
+              <div className="p-4 bg-gradient-to-br from-green-500 to-green-600 rounded-xl">
+                <TrendingUp className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-gray-600">Average Marks</p>
+                <p className="text-3xl font-bold text-gray-900">{averageMarks}</p>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl shadow-soft p-6 border border-gray-100 animate-slide-up" style={{ animationDelay: '100ms' }}>
+            <div className="flex items-center space-x-4">
+              <div className="p-4 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl">
+                <Award className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-gray-600">Total Marks</p>
+                <p className="text-3xl font-bold text-gray-900">{performanceData.totalMarks}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Performance Chart */}
+        <div className="bg-white rounded-2xl shadow-soft p-6 md:p-8 border border-gray-100 animate-slide-up" style={{ animationDelay: '200ms' }}>
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="p-2 bg-gradient-to-br from-green-500 to-green-600 rounded-xl">
+              <Calendar className="w-5 h-5 text-white" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900">Monthly Performance Trend</h2>
+          </div>
+          <div className="h-80">
             <Line data={lineChartData} options={options} />
           </div>
-          <p className="text-lg font-semibold">
-            Total Marks: <span className="text-blue-600">{performanceData.totalMarks}</span>
-          </p>
         </div>
       </div>
     </div>

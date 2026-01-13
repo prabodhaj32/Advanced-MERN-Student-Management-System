@@ -38,7 +38,7 @@ import TeacherDashboard from "./pages/Teachers/Dashboard";
 const App = () => {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-100"> {/* Layout Wrapper */}
+      <div className="min-h-screen bg-gray-50">
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
@@ -49,8 +49,6 @@ const App = () => {
           <Route exact path="/teacher-signIn" element={<TeacherSignIn />} />
 
           {/* Admin Routes */}
-          
-          <Route path="/" element={<Home />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/students" element={<Students />} />
           <Route path="/admin/teachers" element={<Teachers />} />
@@ -60,30 +58,27 @@ const App = () => {
           <Route exact path="/admin/settings" element={<SettingsProfile />} />
 
           {/* Student Routes */}
-          <Route path="/" element={<Home />} />
           <Route path="/student/dashboard" element={<StudentDashboard />} />
           <Route exact path="/student/assignments" element={<StudentAssignments />} />
-        <Route exact path="/student/exams" element={<ExamSection />} />
-        <Route exact path="/student/performance" element={<PerformanceSection />} />
-        {/* <Route exact path="/student/attendance" element={<AttendanceSection />} /> */}
-        <Route exact path="/student/library" element={<LibrarySection />} />
-        <Route exact path="/student/communication" element={<AnnouncementSection/>} />
-        <Route exact path="/student/settings" element={<ProfileSection />} />
+          <Route exact path="/student/exams" element={<ExamSection />} />
+          <Route exact path="/student/performance" element={<PerformanceSection />} />
+          {/* <Route exact path="/student/attendance" element={<AttendanceSection />} /> */}
+          <Route exact path="/student/library" element={<LibrarySection />} />
+          <Route exact path="/student/communication" element={<AnnouncementSection/>} />
+          <Route exact path="/student/settings" element={<ProfileSection />} />
 
-         {/* Teachers sections here */}
-         <Route path="/" element={<Home />} />
-         <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
-         <Route exact path="/teacher/classes" element={<ClassSection />} />
-        <Route exact path="/teacher/students" element={<StudentSection />} />
-        <Route exact path="/teacher/teachers" element={<TeacherSection />} />
-        <Route exact path="/teacher/assignments" element={<AssignmentSection />} />
-        <Route exact path="/teacher/exams" element={<CheckExamSection />} />
-        <Route exact path="/teacher/performance" element={<CheckPerformanceSection />} />
-        <Route exact path="/teacher/attendance" element={<CheckAttendanceSection />} />
-        <Route exact path="/teacher/communication" element={<CheckAnnouncementSection />} />
-        <Route exact path="/teacher/events" element={<EventSection />} />
-        <Route exact path="/teacher/settings" element={<TeacherProfileSection/>} />
-
+          {/* Teachers sections here */}
+          <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
+          <Route exact path="/teacher/classes" element={<ClassSection />} />
+          <Route exact path="/teacher/students" element={<StudentSection />} />
+          <Route exact path="/teacher/teachers" element={<TeacherSection />} />
+          <Route exact path="/teacher/assignments" element={<AssignmentSection />} />
+          <Route exact path="/teacher/exams" element={<CheckExamSection />} />
+          <Route exact path="/teacher/performance" element={<CheckPerformanceSection />} />
+          <Route exact path="/teacher/attendance" element={<CheckAttendanceSection />} />
+          <Route exact path="/teacher/communication" element={<CheckAnnouncementSection />} />
+          <Route exact path="/teacher/events" element={<EventSection />} />
+          <Route exact path="/teacher/settings" element={<TeacherProfileSection/>} />
 
           {/* 404 Not Found Page */}
           {/* <Route path="*" element={<NotFound />} /> */}
